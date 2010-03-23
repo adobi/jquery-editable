@@ -48,7 +48,7 @@
                         
                         element.html();
                         
-                        if(newValue !== '') {
+                        if(newValue !== '' && newValue !== value) {
                             
                             element.text(newValue);
                             
