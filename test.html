@@ -63,12 +63,25 @@
 	
 	<fieldset>
 		
+	    <h3 class = "editable">Click here for editing this</h3>
+	    <h3 class = "editable">Click here for editing this</h3>
+	    <h3 class = "editable">Click here for editing this</h3>
+	    <h3 class = "editable">Click here for editing this</h3>
+	    
 	</fieldset>
 
 	
 	<script type="text/javascript" charset="utf-8">
 		$(function() {
-			
+			//$('.editable').bind('dblclick', function() {
+			    
+			    $('.editable').editable({
+			        saveTo:'save.php',
+			        size: 10
+			    });
+			    
+			    //return false;
+			//});
 		});
 	</script>
 	
