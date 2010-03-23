@@ -4,7 +4,6 @@
         
         options = $.extend({}, $.fn.editable.defaults, options);
         
-        
         var template = $('<input></input>', {type:'text', name:'input_editable', class: 'input-editable', size: options.size});
         
         return $(this).each(function() {
@@ -13,53 +12,65 @@
 
             element.bind('click', function(e) {
                 
+                
                 if($(e.target).is('.input-editable')) return false;
                 
-                var value = jQuery.trim(element.text());
-                
-                element.html(template);
-                            
                 var input = element.find('.input-editable');
                 
-                input.val(value);
-                
-                input.focus();
-                
-                input.keyup(function(e) {
-                   
-                    if(e.which === 27) {
-                        
-                        element.html(value);
-                        
-                        input.die();  
-                        
-                        return false;
-                    }
-                });
-                 
-                input.live('blur', function() {
+                if(input.length === 0) {
                     
-                    var self = $(this);
-                    var newValue = jQuery.trim(self.val());
+                    var value = jQuery.trim(element.text());
                     
-                    element.html();
-                    element.text(newValue);
+                    element.html(template);
                     
-                    $.ajax({
-                        url: options.saveTo,
-                        type: "POST",
-                        dataType: "text",
-                        data: {
-                           p: newValue
-                        },
-                        success: function(response) {
-
+                    input = element.find('.input-editable');
+                                
+                    input.val(value);
+                    
+                    input.focus();
+                    
+                    input.keyup(function(e) {
+                       
+                        if(e.which === 27) {
+                            
+                            element.html(value);
+                            
+                            input.die(); 
+    
+                            return false;
+                        }
+                    });
+                     
+                    input.live('blur', function() {
+                        
+                        var self = $(this);
+                        var newValue = jQuery.trim(self.val());
+                        
+                        element.html();
+                        
+                        if(newValue !== '') {
+                            
+                            element.text(newValue);
+                            
+                            $.ajax({
+                                url: options.saveTo,
+                                type: "POST",
+                                dataType: "text",
+                                data: {
+                                   p: newValue
+                                },
+                                success: function(response) {
+        
+                                    input.die();
+                                }
+                            });
+                        }
+                        else {
+                            element.text(value);
                             input.die();
                         }
                     });
-                    
-                });
-                
+                }
                 return false;
             });
         });
