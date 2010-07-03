@@ -12,7 +12,15 @@
             save = $('<a></a>', {href:'javascript:void(0)', class: 'save'}).text('Mentés'),
             cancel = $('<a></a>', {href:'javascript:void(0)', class: 'cancel'}).text('Mégsem');
         
-        return this.bind('click', function(e) {
+        return this.each(function() {
+        
+            var element = $(this);
+                
+            $.editable.hover(element);
+            
+            element.bind('click', function(e) {
+                
+                $('.'+$.editable.options.message.class).hide();
                 
                 var element = $(this),
                     value = jQuery.trim(element.text()),
@@ -92,6 +100,7 @@
                 
                 return false;
             });
+        });
     };
     
     $.editable = {
@@ -99,6 +108,21 @@
         oldValue: '',
         
         options: {},
+        
+        hover: function(element) {
+            
+            var message = $('<span></span>', {class: this.options.message.class});
+            
+            element.hover(
+                function() {
+                    
+                    $(this).after(message.text($.editable.options.message.text));
+                },
+                function() {
+                    $('.'+$.editable.options.message.class).remove();
+                }
+            );
+        },
         
         save: function(element) {
             
@@ -127,7 +151,9 @@
                         value: text
                     },
                     success: function(response) {
-
+                        
+                        $.editable.hover(element);
+                        
                         element.html(text);
                     }
                 });
@@ -137,9 +163,11 @@
         },
         
         cancel: function(element) {
+            
+            $.editable.hover(element);
 
             element.html(this.oldValue);
-
+            
             return false;
         },
         
@@ -155,6 +183,8 @@
                 if (value !== '') {
     
                     var element = input.parents(this.options.element);
+                    
+                    $.editable.hover(element);
                     
                     element.html(value);
                     
@@ -173,6 +203,8 @@
     
                     var element = select.parents(this.options.element);
                     
+                    $.editable.hover(element);
+                    
                     element.html(value);
                     
                     return true;
@@ -189,7 +221,11 @@
         container: '.editable-container',
         element: '.editable',
         saveTo: '',
-        size: 40
+        size: 40,
+        message: {
+            class: 'info',
+            text:'szerkesztés'
+        }
     }
     
     
