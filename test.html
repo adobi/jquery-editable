@@ -31,16 +31,19 @@
 		fieldset legend {
 			font-size:10px; color:#888;
 		}
-		input[type=text] {
+		input[type=text], select {
 			padding:5px; border: 1px solid #aaa; font-size:16px;
+			margin-right:5px;
 		}
 		input[type=text]:focus {
 			border:1px solid #555;
+			
 		}
 		label {
 			display:inline-block;
 			width:70px;
 		}
+		
 		img {
 			position:relative; left:2px; top:2px;
 		}
@@ -61,13 +64,13 @@
 	
 	<h1>jQuery editable</h1>
 	
-	<fieldset>
+	<fieldset class = "alma">
 		
-	    <h3><span class = "editable">Click here for editing this</span></h3>
-	    <h3><span class = "editable">Click here for editing this</span></h3>
-	    <h3><span class = "editable">Click here for editing this</span></h3>
-	    <h3><span class = "editable">Click here for editing this</span></h3>
-	    
+	    <h3><span class = "editableq text" title = "name">Click here for editing this 1</span></h3>
+	    <h3><span class = "editableq text" title = "email">Click here for editing this 2</span></h3>
+	    <h3><span class = "editableq text" title = "phone">Click here for editing this 3</span></h3>
+	    <h3><span class = "editableq text" title = "address">Click here for editing this 4</span></h3>
+	    <h3><span class = "editableq select" title = "address" options = '["one", "two", "three"]'>two</span></h3>
 	</fieldset>
 
 	
@@ -75,9 +78,11 @@
 		$(function() {
 			//$('.editable').bind('dblclick', function() {
 			    
-			    $('.editable').editable({
+			    $('.editableq').editable({
 			        saveTo:'save.php',
-			        size: 40
+			        container: '.alma',
+			        element: '.editableq',
+			        saveTo:'save.php'
 			    });
 			    
 			    //return false;
