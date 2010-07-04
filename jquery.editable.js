@@ -7,9 +7,9 @@
         $.editable.options = options;
         
         var input = $('<input></input>', {type:'text', 'class': 'input-editable', size: options.size}),
-            select = $('<select></select>', {'class': 'select-editable'}),
-            save = $('<a></a>', {href:'javascript:void(0)', 'class': 'save'}).text('Mentés'),
-            cancel = $('<a></a>', {href:'javascript:void(0)', 'class': 'cancel'}).text('Mégsem');
+            select = $('<select></select>', {'class': 'select-editable'}).html(''),
+            save = $('<a></a>', {href:'javascript:void(0);', 'class': 'save'}).html('Mentés'),
+            cancel = $('<a></a>', {href:'javascript:void(0);', 'class': 'cancel'}).html('Mégsem');
         
         return this.each(function() {
         
@@ -24,7 +24,7 @@
                 var element = $(this),
                     value = jQuery.trim(element.text()),
                     target = $(e.target);
-                    
+                
                 if (target.is('.input-editable') || target.is('.select-editable') || target.is('.option-editable')) {
                     
                     return false;
@@ -32,7 +32,7 @@
                 
                 if (target.is('.cancel')) {
                     
-                    $.editable.cancel(element, value);
+                    $.editable.cancel(element);
                     
                     return false;
                 }
@@ -44,9 +44,11 @@
                     return false;
                 }
                 
+                element.attr('alt', value);
+                
                 if (target.is($.editable.options.element)) {
                     
-                    $.editable.oldValue = value;
+                    //if ($.editable.oldValue.length)
                     
                     var ret = $.editable.reset();
                     
@@ -56,7 +58,9 @@
                 }
                 
                 if (element.hasClass('text')) {
-
+                    
+                    save.html('Mentés');
+                    cancel.html('Mégsem');
                     element.html(input.after(save).after(cancel));
                     
                     var inputElement = element.find('.input-editable');
@@ -65,22 +69,23 @@
                     
                     inputElement.val(value);
                     
-                    //inputElement.focus();
+                    inputElement.focus();
                 }
                 
                 if (element.hasClass('select')) {
                     
-                    select.empty();
+                    //select.empty();
                     
-                    var options = jQuery.parseJSON(element.attr('options'))
-                        length = options.length;
+                    var options = jQuery.parseJSON(element.attr('options'));
+                    
+                    var length = options.length;
                     
                     if (length) {
-                        
+                        select.html('');
                         var option;
                         for (var i = 0; i < length; i++) {
                             
-                            option = $('<option></option>', {value:options[i], 'class': 'option-editable'}).text(options[i]);
+                            option = $('<option></option>', {value:options[i], 'class': 'option-editable'}).html(options[i]);
                             
                             if (options[i] === value) {
                                 
@@ -89,6 +94,9 @@
                             select.append(option);
                         }
 
+                        save.html('Mentés');
+                        cancel.html('Mégsem');
+                        
                         element.html(select.after(save).after(cancel));
                         
                         var selectElement = element.find('.select-editable');
@@ -103,8 +111,7 @@
     };
     
     $.editable = {
-        
-        oldValue: '',
+
         
         options: {},
         
@@ -151,7 +158,7 @@
                     },
                     success: function(response) {
                         
-                        $.editable.hover(element);
+                        //$.editable.hover(element);
                         
                         element.html(text);
                     }
@@ -164,14 +171,14 @@
         cancel: function(element) {
             
             //$.editable.hover(element);
-
-            element.html(this.oldValue);
+            
+            element.html(element.attr('alt'));
             
             return false;
         },
         
         reset: function() {
-            
+                    
             var input = $(this.options.container).find('input'),
                 select = $(this.options.container).find('select');
             
@@ -185,7 +192,9 @@
                     
                     //$.editable.hover(element);
                     
-                    element.html(value);
+                    //element.html(value);
+                    
+                    element.html(element.attr('alt'));
                     
                     return true;
                 } else {
@@ -204,8 +213,8 @@
                     
                     //$.editable.hover(element);
                     
-                    element.html(value);
-                    
+                    //element.html(value);
+                    element.html(element.attr('alt'));
                     return true;
                 } else {
                     
