@@ -6,21 +6,20 @@
         
         $.editable.options = options;
         
-        var input = $('<input></input>', {type:'text', class: 'input-editable', size: options.size}),
-            select = $('<select></select>', {class: 'select-editable'}),
-            
-            save = $('<a></a>', {href:'javascript:void(0)', class: 'save'}).text('Mentés'),
-            cancel = $('<a></a>', {href:'javascript:void(0)', class: 'cancel'}).text('Mégsem');
+        var input = $('<input></input>', {type:'text', 'class': 'input-editable', size: options.size}),
+            select = $('<select></select>', {'class': 'select-editable'}),
+            save = $('<a></a>', {href:'javascript:void(0)', 'class': 'save'}).text('Mentés'),
+            cancel = $('<a></a>', {href:'javascript:void(0)', 'class': 'cancel'}).text('Mégsem');
         
         return this.each(function() {
         
             var element = $(this);
                 
-            $.editable.hover(element);
+            //$.editable.hover(element);
             
             element.bind('click', function(e) {
                 
-                $('.'+$.editable.options.message.class).hide();
+                //$('.'+$.editable.options.message.cssClass).hide();
                 
                 var element = $(this),
                     value = jQuery.trim(element.text()),
@@ -66,7 +65,7 @@
                     
                     inputElement.val(value);
                     
-                    inputElement.focus();
+                    //inputElement.focus();
                 }
                 
                 if (element.hasClass('select')) {
@@ -81,7 +80,7 @@
                         var option;
                         for (var i = 0; i < length; i++) {
                             
-                            option = $('<option></option>', {value:options[i], class: 'option-editable'}).text(options[i]);
+                            option = $('<option></option>', {value:options[i], 'class': 'option-editable'}).text(options[i]);
                             
                             if (options[i] === value) {
                                 
@@ -111,7 +110,7 @@
         
         hover: function(element) {
             
-            var message = $('<span></span>', {class: this.options.message.class});
+            var message = $('<span></span>', {'class': this.options.message.cssClass});
             
             element.hover(
                 function() {
@@ -119,7 +118,7 @@
                     $(this).after(message.text($.editable.options.message.text));
                 },
                 function() {
-                    $('.'+$.editable.options.message.class).remove();
+                    $('.'+$.editable.options.message.cssClass).remove();
                 }
             );
         },
@@ -164,7 +163,7 @@
         
         cancel: function(element) {
             
-            $.editable.hover(element);
+            //$.editable.hover(element);
 
             element.html(this.oldValue);
             
@@ -184,7 +183,7 @@
     
                     var element = input.parents(this.options.element);
                     
-                    $.editable.hover(element);
+                    //$.editable.hover(element);
                     
                     element.html(value);
                     
@@ -203,7 +202,7 @@
     
                     var element = select.parents(this.options.element);
                     
-                    $.editable.hover(element);
+                    //$.editable.hover(element);
                     
                     element.html(value);
                     
@@ -223,10 +222,10 @@
         saveTo: '',
         size: 40,
         message: {
-            class: 'info',
+            cssClass: 'info',
             text:'szerkesztés'
         }
     }
     
     
-}) (jQuery);
+})(jQuery);

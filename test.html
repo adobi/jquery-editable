@@ -4,6 +4,7 @@
 	<title>jQuery editable</title>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 	
+	
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 	<script type="text/javascript" src="jquery.editable.js"></script>
 	
@@ -63,7 +64,7 @@
             font-size:11px!important;
             color:#999;
             margin-left:5px;
-            background:#FFFF88;
+            //background:#FFFF88;
             padding:3px;
         }
 	</style>	
@@ -83,18 +84,13 @@
 
 	
 	<script type="text/javascript" charset="utf-8">
-		$(function() {
-			//$('.editable').bind('dblclick', function() {
-			    
-			    $('.editableq').editable({
-			        saveTo:'save.php',
-			        container: '.alma',
-			        element: '.editableq',
-			        saveTo:'save.php'
-			    });
-			    
-			    //return false;
-			//});
+		$(document).ready(function() {
+		    $('.editableq').editable({
+		        saveTo:'save.php',
+		        container: '.alma',
+		        element: '.editableq',
+		        saveTo:'save.php'
+		    });
 		});
 	</script>
 	
