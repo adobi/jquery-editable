@@ -15,11 +15,11 @@
         
             var element = $(this);
                 
-            //$.editable.hover(element);
+            $.editable.hover(element);
             
             element.bind('click', function(e) {
                 
-                //$('.'+$.editable.options.message.cssClass).hide();
+                $('.'+$.editable.options.message.cssClass).hide();
                 
                 var element = $(this),
                     value = jQuery.trim(element.text()),
@@ -47,8 +47,6 @@
                 element.attr('alt', value);
                 
                 if (target.is($.editable.options.element)) {
-                    
-                    //if ($.editable.oldValue.length)
                     
                     var ret = $.editable.reset();
                     
@@ -84,7 +82,6 @@
                         select.html('');
                         var option;
                         for (var i = 0; i < length; i++) {
-                            
                             option = $('<option></option>', {value:options[i], 'class': 'option-editable'}).html(options[i]);
                             
                             if (options[i] === value) {
@@ -92,12 +89,15 @@
                                 option.attr('selected', true);
                             }
                             select.append(option);
-                        }
 
+                        }
+                        
                         save.html('Mentés');
                         cancel.html('Mégsem');
                         
-                        element.html(select.after(save).after(cancel));
+                        //element.html(select.after(save).after(cancel));
+                        element.html(select);
+                        element.append(save).append(cancel);
                         
                         var selectElement = element.find('.select-editable');
                         
@@ -170,7 +170,7 @@
         
         cancel: function(element) {
             
-            //$.editable.hover(element);
+            $.editable.hover(element);
             
             element.html(element.attr('alt'));
             
@@ -190,7 +190,7 @@
     
                     var element = input.parents(this.options.element);
                     
-                    //$.editable.hover(element);
+                    $.editable.hover(element);
                     
                     //element.html(value);
                     
