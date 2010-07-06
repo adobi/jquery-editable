@@ -8,8 +8,9 @@
         
         var input = $('<input></input>', {type:'text', 'class': 'input-editable', size: options.size}),
             select = $('<select></select>', {'class': 'select-editable'}).html(''),
-            save = $('<a></a>', {href:'javascript:void(0);', 'class': 'save'}).html('Mentés'),
-            cancel = $('<a></a>', {href:'javascript:void(0);', 'class': 'cancel'}).html('Mégsem');
+            save = $('<a></a>', {href:'javascript:void(0);', 'class': 'save'}).html(options.links.save),
+            cancel = $('<a></a>', {href:'javascript:void(0);', 'class': 'cancel'}).html(options.links.cancel),
+        	img = $('<img></img>', {'class': 'ajax-loader hidden', 'src': options.loaderPath, 'alt': ''});
         
         return this.each(function() {
         
@@ -39,6 +40,16 @@
                 
                 if (target.is('.save')) {
                     
+                	img.insertAfter(element);
+                	
+					$('.ajax-loader')
+					   .ajaxStart(function() {
+							$(this).show();
+					   })
+					   .ajaxStop(function() {
+							$(this).hide();
+					});    
+					                 
                     $.editable.save(element);
                     
                     return false;
@@ -57,8 +68,9 @@
                 
                 if (element.hasClass('text')) {
                     
-                    save.html('Mentés');
-                    cancel.html('Mégsem');
+                    save.html($.editable.options.links.save);
+                    cancel.html($.editable.options.links.cancel);
+                    
                     element.html(input.after(save).after(cancel));
                     
                     var inputElement = element.find('.input-editable');
@@ -82,9 +94,10 @@
                         select.html('');
                         var option;
                         for (var i = 0; i < length; i++) {
-                            option = $('<option></option>', {value:options[i], 'class': 'option-editable'}).html(options[i]);
                             
-                            if (options[i] === value) {
+                            option = $('<option></option>', {value:options[i].key, 'class': 'option-editable'}).html(options[i].value);
+                            
+                            if (options[i].value === value) {
                                 
                                 option.attr('selected', true);
                             }
@@ -92,8 +105,8 @@
 
                         }
                         
-                        save.html('Mentés');
-                        cancel.html('Mégsem');
+                        save.html($.editable.options.links.save);
+                        cancel.html($.editable.options.links.cancel);
                         
                         //element.html(select.after(save).after(cancel));
                         element.html(select);
@@ -132,7 +145,7 @@
         
         save: function(element) {
             
-            var text = '';
+            var text = '', value = '';
             
             if (element.hasClass('text')) {
                     
@@ -141,6 +154,7 @@
             
             if (element.hasClass('select')) {
                 
+                value = element.find('select option:selected').text();
                 text = element.find('select').val();
             }
             
@@ -158,10 +172,24 @@
                     },
                     success: function(response) {
                         
-                        //$.editable.hover(element);
                         
-                        element.html(text);
-                    }
+                        //$.editable.hover(element);
+                        if (response.response) {
+                        	
+                        	if (value.length) {
+    
+                        		element.html(value);
+                        	} else {
+                        		
+	                        	element.html(text);
+                        	}
+                        	//element.html(element.attr('alt'));
+                        	element.css('color', 'green');
+                        } else {
+                        	
+                        	element.html(element.attr('alt'));
+                        	element.css('color', 'red');
+                        }                    }
                 });
             }                
             
@@ -233,7 +261,14 @@
         message: {
             cssClass: 'info',
             text:'szerkesztés'
-        }
+        },
+        loaderPath: '',
+        links: {
+            save: 'Mentés',
+            cancel: 'Mégsem'
+        },
+        onSuccess: function() {},
+        onError: function() {}
     }
     
     
