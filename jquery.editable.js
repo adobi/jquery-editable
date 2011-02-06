@@ -67,7 +67,9 @@
                 }
                 
                 if (element.hasClass('text')) {
-                    
+                    var input = $('<input></input>', {type:'text', 'class': 'input-editable'});
+                    input.datepicker();
+
                     save.html($.editable.options.links.save);
                     cancel.html($.editable.options.links.cancel);
                     
